@@ -1,14 +1,15 @@
 ﻿#Requires AutoHotkey v2.0
-SendMode( "Input" ) ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir( A_ScriptDir ) ; Ensures a consistent starting directory.
-SetTitleMatchMode( 2 )
-CoordMode( "Mouse", "Screen" )
+SendMode("Input") ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir(A_ScriptDir) ; Ensures a consistent starting directory.
+SetTitleMatchMode(2)
+CoordMode("Mouse", "Screen")
 
-GroupAdd( "Vidya", "Minecraft" )
-GroupAdd( "Vidya", "ahk_exe ProjectZomboid64.exe" )
-GroupAdd( "Vidya", "ahk_exe SkyrimSE.exe" )
-GroupAdd( "Vidya", "ahk_exe openmw.exe" )
-GroupAdd( "Vidya", "ahk_exe vermintide2_dx12.exe")
+GroupAdd("Vidya", "Minecraft")
+GroupAdd("Vidya", "ahk_exe ProjectZomboid64.exe")
+GroupAdd("Vidya", "ahk_exe SkyrimSE.exe")
+GroupAdd("Vidya", "ahk_exe openmw.exe")
+GroupAdd("Vidya", "ahk_exe vermintide2_dx12.exe")
+GroupAdd("Vidya", "ahk_exe TheBloodline.exe")
 
 InstallKeybdHook
 InstallMouseHook
@@ -17,8 +18,8 @@ InstallMouseHook
 ; Activated by Mouse4 + LClick
 F23::
 {
-	Click( 3 )
-	Sleep( 150 )
+	Click(3)
+	Sleep(150)
 }
 
 ; Copy (ctrl + c)
@@ -29,21 +30,35 @@ F24::^c
 ; Replaces ::date when typed
 :*:`:`:date::
 {
-	SendInput( FormatTime( , "yyyy-MM-dd") )
+	SendInput(FormatTime(, "yyyy-MM-dd"))
+}
+
+; Types today's date in US format
+; replaces ::today when typed
+:*:`:`:today::
+{
+	SendInput(FormatTime(, "MM-dd-yyyy"))
 }
 
 ; Types the current time
 ; Replaces ::rn when typed
 :*:`:`:rn::
 {
-	SendInput( FormatTime( , "h:mm tt" ) )
+	SendInput(FormatTime(, "h:mm tt"))
 }
 
 ; Types the VHDL library includes std_logic_1164 and numeric_std
 ; Replaces ::vhdl_ieee when typed
 :*:`:`:vhdl_ieee::
 {
-	SendText( "library ieee;`nuse ieee.std_logic_1164.all;`nuse ieee.numeric_std.all;`n")
+	SendText("library ieee;`nuse ieee.std_logic_1164.all;`nuse ieee.numeric_std.all;`n")
+}
+
+; Types out my name
+; Replaces ::name when typed
+:*:`:`:name::
+{
+	SendText("Joseph Principe")
 }
 
 ; Toggles the mute status of the desktop microphone
@@ -51,32 +66,32 @@ F24::^c
 ; Displays a tray tip letting the user know the new mute status
 >!`::
 {
-	MyGui := Gui( "+ToolWindow", "Microphone" )
-	MyGui.SetFont( "s24" )
+	MyGui := Gui("+ToolWindow", "Microphone")
+	MyGui.SetFont("s24")
 	
-	if ( SoundGetMute( , "Microphone" ) )
+	if (SoundGetMute(, "Microphone"))
 	{
-		try SoundSetMute( 0, , "Microphone" )
-		MyGui.Add( "Text", , "Microphone Unmuted" )
+		try SoundSetMute(0, , "Microphone")
+		MyGui.Add("Text", , "Microphone Unmuted")
 		MyGui.Show()
-		MyGui.Move( -378, 933 )
-		;MyGui.Move( -378, 1143 )
+		MyGui.Move(-378, 933)
+		;MyGui.Move(-378, 1143)
 	}
 	else
 	{
-		try SoundSetMute( 1, , "Microphone" )
-		MyGui.Add( "Text", , "Microphone Muted" )
+		try SoundSetMute(1, , "Microphone")
+		MyGui.Add("Text", , "Microphone Muted")
 		MyGui.Show()
-		MyGui.Move( -335, 933 )
-		;MyGui.Move( -335, 1143 )
+		MyGui.Move(-335, 933)
+		;MyGui.Move(-335, 1143)
 	}
-	Sleep( 1500 )
+	Sleep(1500)
 	MyGui.Destroy()
 	Return
 } ; End of >!`::
 
-; General video game hotkeys
-#HotIf WinActive( "ahk_group Vidya" )
+; ======================== General video game hotkeys ======================== ;
+#HotIf WinActive("ahk_group Vidya")
 ; Opens the map
 ; Activated with Mouse5 + q
 XButton2 & q::m
@@ -117,22 +132,21 @@ XButton2 & 5::0
 ; Activated by pressing forward button behind wheel
 F24::
 {
-	Click( 10 )
-	Sleep( 150 )
+	Click(10)
+	Sleep(75)
 }
 
 ; Auto right clicker
 ; Activated by pressing rear button behind wheel
 F23::
 {
-	Click( , , "Right", 10 )
-	Sleep( 150 )
+	Click(, , "Right", 10)
+	Sleep(75)
 }
-
 #HotIf ; End of general video game hotkeys
 
-; Minecraft specific hotkeys
-#HotIf WinActive( "Minecraft" )
+; ================================ Minecraft ================================ ;
+#HotIf WinActive("Minecraft")
 ; Veinminer hotkey
 ; Activated by Mouse5 + LClick
 ; Vein mines when both keys are held down instead of having to hold tilde
@@ -151,11 +165,10 @@ XButton2 & e::j
 ; Opens the waypoint menu
 ; Activated by Mouse5 + q
 XButton2 & q::^b
+#HotIf
 
-#HotIf ; End of Minecraft specific hotkeys
-
-; Overwatch specific hotkeys
-#HotIf WinActive( "ahk_exe Overwatch.exe" )
+; ================================ Overwatch ================================ ;
+#HotIf WinActive("ahk_exe Overwatch.exe")
 ; "No" voiceline hotkey
 ; Activated by Mouse5 + r
 XButton2 & r::Numpad6
@@ -174,62 +187,91 @@ XButton2 & q::i
 
 ; Voice Line Menu - O -> E
 ; Voice line wheel hotkey
-; Activated by 
+; Activated by Mouse5 + e
 XButton2 & e::o
+#HotIf
 
-#HotIf ; End of Overwatch specific hotkeys
+; ============================== The Bloodline ============================== ;
+#HotIf WinActive("ahk_exe TheBloodline.exe")
+; Opens the skill book menu
+; Activated by Mouse5 + z
+XButton2 & z::k
 
-; Blender specific hotkeys
-#HotIf WinActive( "ahk_exe blender-launcher.exe" )
+; Opens the skill tree menu
+; Activated by Mouse5 + v
+XButton2 & v::l
+#HotIf
+
+; ================================= Blender ================================= ;
+#HotIf WinActive("ahk_exe blender-launcher.exe")
 
 #HotIf
 
-; Firefox specific hotkeys
-#HotIf WinActive( "ahk_exe firefox.exe" )
+; ================================= Firefox ================================= ;
+#HotIf WinActive("ahk_exe firefox.exe")
 ; New tab, paste, enter
 ; Activated by Shift + Alt + p
-+!p::SendInput( "^t^v{Enter}" )
-
-#HotIf ; End of Firefox specific hotkeys
++!p::SendInput("^t^v{Enter}")
+#HotIf
 
 ; Opens the strawberry music player
 ; Activated by RAlt + 1
 ; Checks if the player exists or is active, if not, runs/opens the player
-#HotIf !WinExist( "ahk_exe strawberry.exe" ) or !WinActive( "ahk_exe strawberry.exe" )
+#HotIf !WinExist("ahk_exe strawberry.exe") or !WinActive("ahk_exe strawberry.exe")
 >!1::
 {
-	if ( !WinExist( "ahk_exe strawberry.exe" ) )
+	if (!WinExist("ahk_exe strawberry.exe"))
 	{
-		Run( "C:\Program Files\Strawberry Music Player\strawberry.exe" )
+		Run("C:\Program Files\Strawberry Music Player\strawberry.exe")
 	}
-	else if ( !WinActive( "ahk_exe strawberry.exe" ) )
+	else if (!WinActive("ahk_exe strawberry.exe"))
 	{
-		WinActivate( "ahk_exe strawberry.exe" )
+		WinActivate("ahk_exe strawberry.exe")
 	}
 	Return
 }
-#HotIf ; End of open Strawberry
+#HotIf
 
-#HotIf WinActive( "ahk_exe WindowsTerminal.exe" )
+; Opens the windows terminal
+; Activated by Ctrl + Alt + tab
+; Checks if the player exists or is active, if not, runs/opens the terminal
+#HotIf !WinExist("ahk_exe WindowsTerminal.exe") or !WinActive("ahk_exe WindowsTerminal.exe")
+^!t::
+{
+	if (!WinExist("ahk_exe WindowsTerminal.exe"))
+	{
+		Run("C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_1.17.11461.0_x64__8wekyb3d8bbwe\wt.exe")
+	}
+	else if (!WinActive("ahk_exe WindowsTerminal.exe"))
+	{
+		WinActivate("ahk_exe WindowsTerminal.exe")
+	}
+	Return
+	
+}
+#HotIf
+
+; ============================ Windows Terminal ============================ ;
+#HotIf WinActive("ahk_exe WindowsTerminal.exe")
 ; Disables CapsLock when returning to normal mode
 ; Activated by LCtrl + [
 <^[::
 {
-	if ( GetKeyState( "CapsLock", "T" ) )
+	if (GetKeyState("CapsLock", "T"))
 	{
-		SetCapslockState( 0 )
+		SetCapslockState(0)
 	}
-	SendInput( "{LCtrl Down}[{LCtrl Up}" )
+	SendInput("{LCtrl Down}[{LCtrl Up}")
 }
 
 ; Disables CapsLock when returning to normal mode
 ; Activated by Esc
 Esc::
 {
-	if ( GetKeyState( "CapsLock", "T" ) ) 
+	if (GetKeyState("CapsLock", "T")) 
 	{
-		SetCapslockState( 0 )
+		SetCapslockState(0)
 	}
-	SendInput( "{Esc}" )
+	SendInput("{Esc}")
 }
-#HotIf ; End of Ubuntu hotkeys
+#HotIf

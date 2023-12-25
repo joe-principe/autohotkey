@@ -10,20 +10,21 @@ GroupAdd("Vidya", "ahk_exe SkyrimSE.exe")
 GroupAdd("Vidya", "ahk_exe openmw.exe")
 GroupAdd("Vidya", "ahk_exe vermintide2_dx12.exe")
 GroupAdd("Vidya", "ahk_exe TheBloodline.exe")
+GroupAdd("Vidya", "ahk_exe openmw.exe")
 
 InstallKeybdHook
 InstallMouseHook
 
 ; Triple Click
-; Activated by Mouse4 + LClick
+; Activated by Rear Button behind Mouse Wheel
 F23::
 {
 	Click(3)
-	Sleep(150)
+	;Sleep(10)
 }
 
 ; Copy (ctrl + c)
-; Activated by Mouse5 + LClick
+; Activated by Forward Button behind Mouse Wheel
 F24::^c
 
 ; Types today's date in ISO-8601 format
@@ -37,7 +38,7 @@ F24::^c
 ; replaces ::today when typed
 :*:`:`:today::
 {
-	SendInput(FormatTime(, "MM-dd-yyyy"))
+	SendInput(FormatTime(, "MM/dd/yyyy"))
 }
 
 ; Types the current time
@@ -214,6 +215,20 @@ XButton2 & v::l
 +!p::SendInput("^t^v{Enter}")
 #HotIf
 
+; ================================ Morrowind ================================ ;
+#HotIf WinActive("ahk_exe openmw.exe")
+; Spams the enter key
+; Used for fast training personality
+;Enter::SendInput("{Enter}")
+
+; Spams the space key
+; Used for fast training of acrobatics
+;Space::{
+;	SetKeyDelay 10, 10
+;	SendEvent("{Space}")
+;}
+#HotIf
+
 ; Opens the strawberry music player
 ; Activated by RAlt + 1
 ; Checks if the player exists or is active, if not, runs/opens the player
@@ -234,13 +249,13 @@ XButton2 & v::l
 
 ; Opens the windows terminal
 ; Activated by Ctrl + Alt + tab
-; Checks if the player exists or is active, if not, runs/opens the terminal
+; Checks if the terminal exists or is active, if not, runs/opens the terminal
 #HotIf !WinExist("ahk_exe WindowsTerminal.exe") or !WinActive("ahk_exe WindowsTerminal.exe")
 ^!t::
 {
 	if (!WinExist("ahk_exe WindowsTerminal.exe"))
 	{
-		Run("C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_1.17.11461.0_x64__8wekyb3d8bbwe\wt.exe")
+		Run("C:\Users\Joe\AppData\Local\Microsoft\WindowsApps\wt.exe")
 	}
 	else if (!WinActive("ahk_exe WindowsTerminal.exe"))
 	{

@@ -7,10 +7,10 @@ CoordMode("Mouse", "Screen")
 GroupAdd("Vidya", "Minecraft")
 GroupAdd("Vidya", "ahk_exe ProjectZomboid64.exe")
 GroupAdd("Vidya", "ahk_exe SkyrimSE.exe")
-GroupAdd("Vidya", "ahk_exe openmw.exe")
 GroupAdd("Vidya", "ahk_exe vermintide2_dx12.exe")
 GroupAdd("Vidya", "ahk_exe TheBloodline.exe")
 GroupAdd("Vidya", "ahk_exe openmw.exe")
+GroupAdd("Vidya", "ahk_exe DeusEx.exe")
 
 InstallKeybdHook
 InstallMouseHook
@@ -27,6 +27,7 @@ F23::
 ; Activated by Forward Button behind Mouse Wheel
 F24::^c
 
+; ============================ Text Replacements ============================ ;
 ; Types today's date in ISO-8601 format
 ; Replaces ::date when typed
 :*:`:`:date::
@@ -62,10 +63,11 @@ F24::^c
 	SendText("Joseph Principe")
 }
 
+; ================================= Mic Mute ================================= ;
 ; Toggles the mute status of the desktop microphone
-; Activated by RAlt + `
+; Activated by Alt + `
 ; Displays a tray tip letting the user know the new mute status
->!`::
+!`::
 {
 	MyGui := Gui("+ToolWindow", "Microphone")
 	MyGui.SetFont("s24")
@@ -89,7 +91,7 @@ F24::^c
 	Sleep(1500)
 	MyGui.Destroy()
 	Return
-} ; End of >!`::
+}
 
 ; ======================== General video game hotkeys ======================== ;
 #HotIf WinActive("ahk_group Vidya")
@@ -144,7 +146,7 @@ F23::
 	Click(, , "Right", 10)
 	Sleep(75)
 }
-#HotIf ; End of general video game hotkeys
+#HotIf
 
 ; ================================ Minecraft ================================ ;
 #HotIf WinActive("Minecraft")
@@ -229,6 +231,7 @@ XButton2 & v::l
 ;}
 #HotIf
 
+; ========================= Strawberry Music Player ========================= ;
 ; Opens the strawberry music player
 ; Activated by RAlt + 1
 ; Checks if the player exists or is active, if not, runs/opens the player
@@ -247,8 +250,9 @@ XButton2 & v::l
 }
 #HotIf
 
+; ============================ Windows Terminal ============================ ;
 ; Opens the windows terminal
-; Activated by Ctrl + Alt + tab
+; Activated by Ctrl + Alt + t
 ; Checks if the terminal exists or is active, if not, runs/opens the terminal
 #HotIf !WinExist("ahk_exe WindowsTerminal.exe") or !WinActive("ahk_exe WindowsTerminal.exe")
 ^!t::
@@ -266,7 +270,6 @@ XButton2 & v::l
 }
 #HotIf
 
-; ============================ Windows Terminal ============================ ;
 #HotIf WinActive("ahk_exe WindowsTerminal.exe")
 ; Disables CapsLock when returning to normal mode
 ; Activated by LCtrl + [
@@ -290,3 +293,27 @@ Esc::
 	SendInput("{Esc}")
 }
 #HotIf
+
+; ============================== Visual Studio ============================== ;
+#HotIf WinActive("ahk_exe devenv.exe")
+; Disables CapsLock when returning to normal mode
+; Activated by LCtrl + [
+<^[::
+{
+	if (GetKeyState("CapsLock", "T"))
+	{
+		SetCapslockState(0)
+	}
+	SendInput("{LCtrl Down}[{LCtrl Up}")
+}
+
+; Disables CapsLock when returning to normal mode
+; Activated by Esc
+Esc::
+{
+	if (GetKeyState("CapsLock", "T"))
+	{
+		SetCapslockState(0)
+	}
+	SendInput("{Esc}")
+}
